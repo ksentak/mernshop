@@ -8,7 +8,7 @@ import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import { listProductDetails } from '../actions/productActions';
 
 const ProductPage = ({ match, history }) => {
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
 
