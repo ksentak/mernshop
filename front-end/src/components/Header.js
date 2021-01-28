@@ -1,10 +1,21 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { logout } from '../actions/userActions';
 
 const Header = () => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
   return (
     <header>
       <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
@@ -19,11 +30,20 @@ const Header = () => {
                 <FontAwesomeIcon className='mr-1' icon={faShoppingCart}></FontAwesomeIcon>Cart
               </Nav.Link>
             </LinkContainer>
-            <LinkContainer to='/login'>
-              <Nav.Link>
-                <FontAwesomeIcon className='mr-1' icon={faUser}></FontAwesomeIcon>Sign In
-              </Nav.Link>
-            </LinkContainer>
+            {userInfo ? (
+              <NavDropdown title={userInfo.name} id='username'>
+                <LinkContainer to='/profile'>
+                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <LinkContainer to='/login'>
+                <Nav.Link>
+                  <FontAwesomeIcon className='mr-1' icon={faUser}></FontAwesomeIcon>Sign In
+                </Nav.Link>
+              </LinkContainer>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
