@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
 
@@ -12,9 +13,10 @@ const App = () => {
       <Header />
       <main>
         <Container>
-          <Route path='/' exact component={HomePage} />
           <Route path='/product/:id' component={ProductPage} />
           <Route path='/cart/:id?' component={CartPage} />
+          <Route path='/login' component={LoginPage} />
+          <Route path='/' exact component={HomePage} />
         </Container>
       </main>
       <Footer />
