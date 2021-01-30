@@ -50,8 +50,6 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrderItems, getOrderById };
-
 // @description Update order to paid
 // @route PUT /api/orders/:id/pay
 // @access Private
