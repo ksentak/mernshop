@@ -17,6 +17,9 @@ import {
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_RESET,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAIL,
   USER_LOGOUT
 } from '../constants/userConstants';
 import { ORDER_LIST_MY_ORDERS_RESET } from '../constants/orderConstants';
@@ -176,11 +179,36 @@ export const listUsers = () => async (dispatch, getState) => {
       type: USER_LIST_SUCCESS,
       payload: data
     });
-
-    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (e) {
     dispatch({
       type: USER_LIST_FAIL,
+      payload: e.response && e.response.data.message ? e.response.data.message : e.message
+    });
+  }
+};
+
+export const deleteUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST
+    });
+
+    const {
+      userLogin: { userInfo }
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`
+      }
+    };
+
+    await axios.delete(`/api/users/${id}`, config);
+
+    dispatch({ type: USER_DELETE_SUCCESS });
+  } catch (e) {
+    dispatch({
+      type: USER_DELETE_FAIL,
       payload: e.response && e.response.data.message ? e.response.data.message : e.message
     });
   }

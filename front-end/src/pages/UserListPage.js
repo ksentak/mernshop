@@ -6,7 +6,7 @@ import { faCheck, faTimes, faEdit, faTrash } from '@fortawesome/free-solid-svg-i
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listUsers } from '../actions/userActions';
+import { listUsers, deleteUser } from '../actions/userActions';
 
 const UserListPage = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,16 +17,21 @@ const UserListPage = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success: successDelete } = userDelete;
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listUsers());
     } else {
       history.push('/login');
     }
-  }, [dispatch, history]);
+  }, [dispatch, history, successDelete, userInfo]);
 
   const deleteHandler = (id) => {
-    console.log('delete');
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      dispatch(deleteUser(id));
+    }
   };
 
   return (
