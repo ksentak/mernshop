@@ -16,7 +16,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
   } = req.body;
 
   if (orderItems && orderItems.length === 0) {
-    res.setMaxListeners(400);
+    res.status(400);
     throw new Error('No order items');
     return;
   } else {
