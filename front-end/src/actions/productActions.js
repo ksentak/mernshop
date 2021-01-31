@@ -110,10 +110,10 @@ export const createProduct = () => async (dispatch, getState) => {
   }
 };
 
-export const updateProduct = (id) => async (dispatch, getState) => {
+export const updateProduct = (product) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: PRODUCT_DELETE_REQUEST
+      type: PRODUCT_UPDATE_REQUEST
     });
 
     const {
@@ -122,16 +122,17 @@ export const updateProduct = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`
       }
     };
 
-    await axios.delete(`/api/products/${id}`, config);
+    const { data } = await axios.put(`/api/products/${product._id}`, product, config);
 
-    dispatch({ type: PRODUCT_DELETE_SUCCESS });
+    dispatch({ type: PRODUCT_UPDATE_SUCCESS });
   } catch (e) {
     dispatch({
-      type: PRODUCT_DELETE_FAIL,
+      type: PRODUCT_UPDATE_FAIL,
       payload: e.response && e.response.data.message ? e.response.data.message : e.message
     });
   }
