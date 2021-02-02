@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import Paginate from '../components/Paginate';
+import Meta from '../components/Meta';
 import { listProducts, deleteProduct, createProduct } from '../actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
@@ -58,6 +59,7 @@ const ProductListPage = ({ history, match }) => {
 
   return (
     <>
+      <Meta title='MERNshop | Admin Products' />
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>

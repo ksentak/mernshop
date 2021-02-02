@@ -6,6 +6,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 import { listOrders } from '../actions/orderActions';
 
 const OrderListPage = ({ history }) => {
@@ -27,6 +28,7 @@ const OrderListPage = ({ history }) => {
 
   return (
     <>
+      <Meta title='MERNshop | Admin Orders' />
       <h1>Orders</h1>
       {loading ? (
         <Loader />
