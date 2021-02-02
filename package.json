@@ -1,6 +1,9 @@
 {
   "name": "mernshop",
   "version": "1.0.0",
+  "engines": {
+    "node": "15.2.1"
+  },
   "description": "MERN e-commerce app",
   "main": "server.js",
   "type": "module",
@@ -8,7 +11,8 @@
     "start": "node back-end/server",
     "server": "npx nodemon back-end/server",
     "client": "npm start --prefix front-end",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front-end && npm run build --prefix front-end"
   },
   "repository": {
     "type": "git",
