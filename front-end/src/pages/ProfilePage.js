@@ -1,24 +1,24 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Row, Col, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Message from '../components/Message';
 import Meta from '../components/Meta';
-import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 const ProfilePage = ({ location, history }) => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
-
-  const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
@@ -31,6 +31,16 @@ const ProfilePage = ({ location, history }) => {
 
   const orderListMyOrders = useSelector((state) => state.orderListMyOrders);
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMyOrders;
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match!');
+    } else {
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+    }
+  };
 
   useEffect(() => {
     if (!userInfo || success) {
@@ -46,16 +56,6 @@ const ProfilePage = ({ location, history }) => {
       }
     }
   }, [dispatch, history, userInfo, user, success]);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    if (password !== confirmPassword) {
-      setMessage('Passwords do not match!');
-    } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }));
-    }
-  };
 
   return (
     <>

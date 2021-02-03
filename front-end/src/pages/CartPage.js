@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -9,20 +9,12 @@ import Meta from '../components/Meta';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 
 const CartPage = ({ match, location, history }) => {
-  const productId = match.params.id;
-
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1;
-
   const dispatch = useDispatch();
+  const productId = match.params.id;
+  const qty = location.search ? Number(location.search.split('=')[1]) : 1;
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-
-  useEffect(() => {
-    if (productId) {
-      dispatch(addToCart(productId, qty));
-    }
-  }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
@@ -32,10 +24,15 @@ const CartPage = ({ match, location, history }) => {
     history.push('/login?redirect=shipping');
   };
 
+  useEffect(() => {
+    if (productId) {
+      dispatch(addToCart(productId, qty));
+    }
+  }, [dispatch, productId, qty]);
+
   return (
     <>
       <Meta title='MERNshop | Cart' />
-
       <Row>
         <Col md={8}>
           <h1>Shopping Cart</h1>

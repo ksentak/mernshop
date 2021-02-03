@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
 
 // @description Fetch all products
-// @route GET  /api/products
+// @route GET /api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 8;

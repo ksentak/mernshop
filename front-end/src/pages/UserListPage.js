@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Message from '../components/Message';
 import Meta from '../components/Meta';
 import { listUsers, deleteUser } from '../actions/userActions';
 
@@ -21,6 +21,12 @@ const UserListPage = ({ history }) => {
   const userDelete = useSelector((state) => state.userDelete);
   const { success: successDelete } = userDelete;
 
+  const deleteHandler = (id) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      dispatch(deleteUser(id));
+    }
+  };
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listUsers());
@@ -28,12 +34,6 @@ const UserListPage = ({ history }) => {
       history.push('/login');
     }
   }, [dispatch, history, successDelete, userInfo]);
-
-  const deleteHandler = (id) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      dispatch(deleteUser(id));
-    }
-  };
 
   return (
     <>

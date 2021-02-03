@@ -1,22 +1,22 @@
 import { useState } from 'react';
-import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import FormContainer from '../components/FormContainer';
+import { Form, Button, Col } from 'react-bootstrap';
 import CheckoutSteps from '../components/CheckoutSteps';
+import FormContainer from '../components/FormContainer';
 import Meta from '../components/Meta';
 import { savePaymentMethod } from '../actions/cartActions';
 
 const PaymentPage = ({ history }) => {
+  const dispatch = useDispatch();
+
+  const [paymentMethod, setPaymentMethod] = useState('PayPal');
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
   if (!shippingAddress) {
     history.push('/shipping');
   }
-
-  const [paymentMethod, setPaymentMethod] = useState('PayPal');
-
-  const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -27,7 +27,6 @@ const PaymentPage = ({ history }) => {
   return (
     <>
       <Meta title='MERNshop | Payment Method' />
-
       <FormContainer>
         <CheckoutSteps step1 step2 step3 />
         <h1>Payment Method</h1>

@@ -1,19 +1,18 @@
 import { useEffect } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button, Row, Col } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
 import Loader from '../components/Loader';
-import Paginate from '../components/Paginate';
+import Message from '../components/Message';
 import Meta from '../components/Meta';
+import Paginate from '../components/Paginate';
 import { listProducts, deleteProduct, createProduct } from '../actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
 const ProductListPage = ({ history, match }) => {
   const dispatch = useDispatch();
-
   const pageNumber = match.params.pageNumber || 1;
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -33,6 +32,16 @@ const ProductListPage = ({ history, match }) => {
   const productDelete = useSelector((state) => state.productDelete);
   const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
 
+  const createProductHandler = () => {
+    dispatch(createProduct());
+  };
+
+  const deleteHandler = (id) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      dispatch(deleteProduct(id));
+    }
+  };
+
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
 
@@ -46,16 +55,6 @@ const ProductListPage = ({ history, match }) => {
       dispatch(listProducts('', pageNumber));
     }
   }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct, pageNumber]);
-
-  const createProductHandler = () => {
-    dispatch(createProduct());
-  };
-
-  const deleteHandler = (id) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      dispatch(deleteProduct(id));
-    }
-  };
 
   return (
     <>

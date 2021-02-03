@@ -27,6 +27,7 @@ import {
 } from '../constants/userConstants';
 import { ORDER_LIST_MY_ORDERS_RESET } from '../constants/orderConstants';
 
+// Login
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -54,6 +55,7 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
+// Logout
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
@@ -62,6 +64,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_LIST_RESET });
 };
 
+// Create new user
 export const register = (name, email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -94,6 +97,7 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 };
 
+// Grab user info
 export const getUserDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -124,6 +128,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   }
 };
 
+// Update user
 export const updateUserProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -161,6 +166,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   }
 };
 
+// List users
 export const listUsers = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -190,6 +196,7 @@ export const listUsers = () => async (dispatch, getState) => {
   }
 };
 
+// Delete user
 export const deleteUser = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -217,6 +224,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
   }
 };
 
+// Update user
 export const updateUser = (user) => async (dispatch, getState) => {
   try {
     dispatch({

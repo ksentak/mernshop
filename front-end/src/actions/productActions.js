@@ -24,6 +24,7 @@ import {
 } from '../constants/productConstants';
 import { logout } from './userActions';
 
+// List products
 export const listProducts = (keyword = '', pageNumber = '') => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
@@ -42,6 +43,7 @@ export const listProducts = (keyword = '', pageNumber = '') => async (dispatch) 
   }
 };
 
+// Lists individual product
 export const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
@@ -60,6 +62,7 @@ export const listProductDetails = (id) => async (dispatch) => {
   }
 };
 
+// Delete product
 export const deleteProduct = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -87,6 +90,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   }
 };
 
+// Create product
 export const createProduct = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -117,6 +121,7 @@ export const createProduct = () => async (dispatch, getState) => {
   }
 };
 
+// Update product
 export const updateProduct = (product) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -145,6 +150,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
   }
 };
 
+// Create a review
 export const createProductReview = (productId, review) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -180,6 +186,7 @@ export const createProductReview = (productId, review) => async (dispatch, getSt
   }
 };
 
+// Grab top products
 export const listTopProducts = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_TOP_REQUEST });

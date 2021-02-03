@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -9,10 +9,10 @@ import SearchBox from './SearchBox';
 import { logout } from '../actions/userActions';
 
 const Header = () => {
+  const dispatch = useDispatch();
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  const dispatch = useDispatch();
 
   const logoutHandler = () => {
     dispatch(logout());

@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import FormContainer from '../components/FormContainer';
-import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Message from '../components/Message';
+import Meta from '../components/Meta';
 import { listProductDetails, updateProduct } from '../actions/productActions';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 const ProductEditPage = ({ match, history }) => {
+  const dispatch = useDispatch();
+  const productId = match.params.id;
+
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
@@ -19,48 +23,23 @@ const ProductEditPage = ({ match, history }) => {
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
 
-  const productId = match.params.id;
-
-  const dispatch = useDispatch();
-
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
   const productUpdate = useSelector((state) => state.productUpdate);
   const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate;
 
-  useEffect(() => {
-    if (successUpdate) {
-      dispatch({ type: PRODUCT_UPDATE_RESET });
-      history.push('/admin/productlist');
-    } else {
-      if (!product.name || product._id !== productId) {
-        dispatch(listProductDetails(productId));
-      } else {
-        setName(product.name);
-        setPrice(product.price);
-        setImage(product.image);
-        setBrand(product.brand);
-        setCategory(product.category);
-        setCountInStock(product.countInStock);
-        setDescription(product.description);
-      }
-    }
-  }, [dispatch, history, productId, product, successUpdate]);
-
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
     setUploading(true);
-
     try {
       const config = {
         headers: {
           'Content-Type': 'multipart/from-data'
         }
       };
-
       const { data } = await axios.post('/api/upload', formData, config);
       setImage(data);
       setUploading(false);
@@ -86,8 +65,28 @@ const ProductEditPage = ({ match, history }) => {
     );
   };
 
+  useEffect(() => {
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      history.push('/admin/productlist');
+    } else {
+      if (!product.name || product._id !== productId) {
+        dispatch(listProductDetails(productId));
+      } else {
+        setName(product.name);
+        setPrice(product.price);
+        setImage(product.image);
+        setBrand(product.brand);
+        setCategory(product.category);
+        setCountInStock(product.countInStock);
+        setDescription(product.description);
+      }
+    }
+  }, [dispatch, history, productId, product, successUpdate]);
+
   return (
     <>
+      <Meta title='MERNshop | Edit Product' />
       <Link to='/admin/productlist' className='btn btn-light my-3'>
         Go Back
       </Link>

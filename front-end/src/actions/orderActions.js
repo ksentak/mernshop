@@ -21,6 +21,7 @@ import {
 } from '../constants/orderConstants';
 import { logout } from './userActions';
 
+// Creates order
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -51,6 +52,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
   }
 };
 
+// Grabs details of an order
 export const getOrderDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -80,6 +82,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
   }
 };
 
+// Pay for an order
 export const payOrder = (orderId, paymentResult) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -110,6 +113,7 @@ export const payOrder = (orderId, paymentResult) => async (dispatch, getState) =
   }
 };
 
+// Mark order as delivered/shipped
 export const deliverOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -145,6 +149,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
   }
 };
 
+// List users orders
 export const listMyOrders = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -174,6 +179,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
   }
 };
 
+// List all orders
 export const listOrders = () => async (dispatch, getState) => {
   try {
     dispatch({

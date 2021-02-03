@@ -1,18 +1,17 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { listProducts } from '../actions/productActions';
+import { Link } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import Meta from '../components/Meta';
+import Paginate from '../components/Paginate';
 import Product from '../components/Product';
 import ProductCarousel from '../components/ProductCarousel';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import Paginate from '../components/Paginate';
-import Meta from '../components/Meta';
-import { Row, Col } from 'react-bootstrap';
+import { listProducts } from '../actions/productActions';
 
 const HomePage = ({ match }) => {
   const dispatch = useDispatch();
-
   const keyword = match.params.keyword;
   const pageNumber = match.params.pageNumber || 1;
 

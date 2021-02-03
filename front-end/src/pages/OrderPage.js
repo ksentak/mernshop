@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { PayPalButton } from 'react-paypal-button-v2';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
+import { PayPalButton } from 'react-paypal-button-v2';
+import axios from 'axios';
 import Loader from '../components/Loader';
+import Message from '../components/Message';
 import Meta from '../components/Meta';
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions';
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants';
 
 const OrderPage = ({ match, history }) => {
-  const [sdkReady, setSdkReady] = useState(false);
   const orderId = match.params.id;
   const dispatch = useDispatch();
+
+  const [sdkReady, setSdkReady] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -43,6 +44,14 @@ const OrderPage = ({ match, history }) => {
       Number(order.taxPrice)
     ).toFixed(2);
   }
+
+  const successPaymentHandler = (paymentResult) => {
+    dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
+  };
 
   useEffect(() => {
     if (!userInfo) {
@@ -74,14 +83,6 @@ const OrderPage = ({ match, history }) => {
     }
   }, [order, orderId, userInfo, dispatch, history, successPay, successDeliver]);
 
-  const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(orderId, paymentResult));
-  };
-
-  const deliverHandler = () => {
-    dispatch(deliverOrder(order));
-  };
-
   return loading ? (
     <Loader />
   ) : error ? (
@@ -89,7 +90,6 @@ const OrderPage = ({ match, history }) => {
   ) : (
     <>
       <Meta title={`MERNshop | ${order._id}`} />
-
       <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>

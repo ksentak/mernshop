@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import FormContainer from '../components/FormContainer';
+import { Form, Button } from 'react-bootstrap';
 import CheckoutSteps from '../components/CheckoutSteps';
+import FormContainer from '../components/FormContainer';
 import Meta from '../components/Meta';
 import { saveShippingAddress } from '../actions/cartActions';
 
 const ShippingPage = ({ history }) => {
+  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
@@ -14,8 +16,6 @@ const ShippingPage = ({ history }) => {
   const [city, setCity] = useState(shippingAddress.city);
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
   const [country, setCountry] = useState(shippingAddress.country);
-
-  const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -26,7 +26,6 @@ const ShippingPage = ({ history }) => {
   return (
     <>
       <Meta title='MERNshop | Shipping' />
-
       <FormContainer>
         <CheckoutSteps step1 step2 />
         <h1>Shipping</h1>
